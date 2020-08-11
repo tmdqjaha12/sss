@@ -36,4 +36,14 @@ public class ArticleService {
 
 		return Util.getAsInt(param.get("id"));
 	}
+
+	public int getForPrintListArticlesCount(String searchKeyword) {
+		return articleDao.getForPrintListArticlesCount(searchKeyword);
+	}
+
+	public List<Article> getForPrintArticles(int nowPage, int itemsInAPage, String searchKeyword) {
+		int limitFrom = (nowPage - 1) * itemsInAPage;
+		return articleDao.getForPrintArticles(limitFrom, itemsInAPage, searchKeyword);
+	}
+
 }

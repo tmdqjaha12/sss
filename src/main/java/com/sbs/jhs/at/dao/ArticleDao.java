@@ -16,4 +16,8 @@ public interface ArticleDao {
 	Article getForPrintArticleById(@Param("id") int id);
 
 	void write(Map<String, Object> param);
+
+	int getForPrintListArticlesCount(String searchKeyword);
+
+	List<Article> getForPrintArticles(int limitFrom, int itemsInAPage, String searchKeyword);
 }

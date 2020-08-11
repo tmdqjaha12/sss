@@ -18,8 +18,35 @@ public class ArticleController {
 	private ArticleService articleService;
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model) {
-		List<Article> articles = articleService.getForPrintArticles();
+	public String showList(Model model, @RequestParam Map<String, Object> param) {
+		String page = "1";
+		if (param.get("page") != null && param.get("page").toString().length() != 0) {
+			page = (String) param.get("page");
+		}
+		String searchKeyword = "";
+		if (param.get("searchKeyword") != null && param.get("searchKeyword").toString().length() != 0) {
+			searchKeyword = (String) param.get("searchKeyword");
+		}	
+		
+		int itemsInAPage = 10;
+		int totalCount = articleService.getForPrintListArticlesCount(searchKeyword);
+		int totalPage = (int) Math.ceil(totalCount / (double) itemsInAPage);
+
+		int nowPage = Integer.parseInt(page);
+		int intPage = Integer.parseInt(page);
+
+		if (intPage % 5 != 0) {
+			intPage = intPage / 5;
+			intPage = (intPage * 5) + 1;
+		} else if (intPage % 5 == 0) {
+			intPage = intPage - 4;
+		}
+		model.addAttribute("page", intPage);
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("totalPage", totalPage);
+		
+		
+		List<Article> articles = articleService.getForPrintArticles(nowPage, itemsInAPage, searchKeyword);
 
 		model.addAttribute("articles", articles);
 

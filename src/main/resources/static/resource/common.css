@@ -113,3 +113,189 @@ html>head+body:nth-child(2) .height-300 {
 	margin-top: 30px;
 	margin-bottom: 30px;
 }
+
+@charset "utf-8";
+
+/* 노말라이즈 */
+body, ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+/**/
+.con {
+	max-width: 856px;
+	margin: 0 auto;
+}
+
+.page-box {
+	margin-top: 10px;
+	margin-bottom: 30px;
+	/*background-color:pink;*/
+	/*text-align: center;*/
+}
+
+.page-box>ul>li {
+	display: inline-block;
+}
+
+.page-box>ul>li>a {
+	font-size: 1.2rem;
+	padding: 0 10px;
+	text-decoration: underline;
+	color: #787878;
+}
+
+.page-box>ul>li:hover>a {
+	color: black;
+}
+
+.page-box>ul>li.current>a {
+	color: red;
+}
+
+.page-box>ul>span {
+	cursor: pointer;
+}
+
+.page-box>ul>span:active {
+	color: blue;
+}
+/**/
+
+/**/
+.list-box {
+	padding: 20px;
+}
+
+.list-box a:hover {
+	color: blue;
+}
+
+.write-box a {
+	font-size: 2rem;
+	font-weight: bold;
+	color: red;
+	text-decoration: underline;
+}
+
+.write-box a:hover {
+	color: blue;
+}
+
+.top {
+	margin-top: 30px;
+}
+/**/
+.back {
+	-webkit-writing-mode: horizontal-tb !important;
+	text-rendering: auto;
+	letter-spacing: normal;
+	word-spacing: normal;
+	-webkit-rtl-ordering: logical;
+	text-transform: none;
+	text-indent: 0px;
+	margin: 0em;
+	font: 400 13.3333px Arial;
+	text-shadow: none;
+	display: inline-block;
+	-webkit-appearance: push-button;
+	user-select: none;
+	white-space: pre;
+	align-items: flex-start;
+	text-align: center;
+	cursor: default;
+	color: buttontext;
+	background-color: buttonface;
+	box-sizing: border-box;
+	padding: 1px 6px;
+	border-width: 2px;
+	border-style: outset;
+	border-color: buttonface;
+	border-image: initial;
+	text-decoration: none;
+	flex: 1;
+}
+
+a.back:hover {
+	cursor: pointer;
+	-webkit-appearance: textfield;
+	border-width: 2px;
+	border-image: initial;
+}
+
+.back:active {
+	border-style: inset;
+}
+
+.template-box {
+	display: none;
+}
+
+/*
+.detail-box {
+	background-color: #efefef;
+	padding:30px;
+	border:2px solid black;
+}*/
+
+/* 댓글 시작*/
+.table-box>table input[type="text"], .table-box>table input[type="number"],
+	.table-box>table input[type="tel"], .table-box>table textarea {
+	width: 90%;
+}
+
+.height-100px {
+	height: 100px !important;
+}
+
+/*디테일*/
+.article-reply-list-box tr .loading-delete-inline {
+	display: none;
+	font-weight: bold;
+	color: red;
+}
+
+.article-reply-list-box tr[data-loading="Y"] .loading-none {
+	display: none;
+}
+
+.article-reply-list-box tr[data-loading="Y"][data-loading-delete="Y"] .loading-delete-inline
+	{
+	display: inline;
+}
+
+.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-none {
+	display: none;
+}
+
+.article-reply-list-box tr .modify-mode-inline {
+	display: none;
+}
+
+.article-reply-list-box tr .modify-mode-block {
+	display: none;
+}
+
+.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-block {
+	display: block;
+}
+
+.article-reply-list-box tr[data-modify-mode="Y"] .modify-mode-inline {
+	display: inline;
+}
+/* 댓글 끝 */
+
+/*form-control-box*/
+.form-control-box{
+	display: flex;
+}
+
+.form-control-box > * {
+	flex:1;
+}

@@ -2,34 +2,86 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+
+
 <c:set var="pageTitle" value="게시물 상세내용" />
 <%@ include file="../part/head.jspf"%>
 
-<div class="table-box con">
-	<table>
-		<tbody>
-			<tr>
-				<th>번호</th>
-				<td>${article.id}</td>
-			</tr>
-			<tr>
-				<th>날짜</th>
-				<td>${article.regDate}</td>
-			</tr>
-			<tr>
-				<th>제목</th>
-				<td>${article.title}</td>
-			</tr>
-			<tr>
-				<th>내용</th>
-				<td>${article.body}</td>
-			</tr>
-		</tbody>
-	</table>
+<div class="detail-box" style="margin-top:50px;">
+		<div class="con" style="position: relative;">
+			<table border="1">
+				<colgroup>
+					<col width="180">
+					<col width="1000">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>번호</th>
+						<td>${article.id}</td>
+					</tr>
+		
+					<tr>
+						<th>날짜</th>
+						<td>${article.regDate}</td>
+					</tr>
+		
+					<tr>
+						<th>수정 날짜</th>
+						<td>${article.updateDate}</td>
+					</tr>
+		
+					<tr>
+						<th>제목</th>
+						<td style="display:block; padding:2px 5px;">${article.title}</td>
+					</tr>	
+		
+					<tr>
+						<th>내용</th>
+						<td style="display:block; padding:20px 10px;">${article.body}</td>
+					</tr>
+					
+					<tr>
+						<th>작성자</th>
+						<td>임시</td>
+					</tr>
+					
+					<tr>
+						<th>조회수</th>
+						<td>임시</td>
+					</tr>
+					
+					<tr>
+						<th>좋아요</th>
+						<td>임시</td>
+					</tr>
+		
+					<tr>
+						<th>비고</th>
+						<td style="display:flex;">
+							<a class="back" href="./list">뒤로가기</a>
+							<a class="back" href="./modify?id=${article.id}">수정</a>
+							<a class="back" href="./doDelete?id=${article.id}" onclick="if ( confirm('삭제하시겠습니까?') == false ) { return false; }">삭제</a>
+						</td>
+					</tr>
+						
+				</tbody>
+			</table>
+			
+			<div class="prev-next" style="position: absolute; left:50%; transform:translateX(-50%);">
+				<div class="con" style="position: absolute; right:100px; margin-top:30px;">
+					<a href="detail?id=${article.id-1}&replyPage=1" style="font-size:3rem; text-align: center;">◀</a>
+				</div>
+				<div class="con" style="position: absolute; left:100px; margin-top:30px;">
+					<a href="detail?id=${article.id+1}&replyPage=1" style="font-size:3rem;">▶</a>
+				</div>
+				<style>.prev-next > div:hover > a {color:blue;}</style>
+			</div>
+		</div>
+		
 </div>
 
 <c:if test="${isLogined}">
-	<h2 class="con">댓글 작성</h2>
+	<h2 class="con" style="margin-top:100px;">댓글 작성</h2>
 
 	<script>
 		function ArticleWriteReplyForm__submit(form) {
@@ -101,14 +153,18 @@
 		<input type="hidden" name="relTypeCode" value="article" /> <input
 			type="hidden" name="relId" value="${article.id}" />
 
-		<table>
+		<table border="1">
+			<colgroup>
+						<col width="180">
+						<col width="1000">
+			</colgroup>
 			<tbody>
 				<tr>
 					<th>내용</th>
 					<td>
 						<div class="form-control-box">
 							<textarea maxlength="300" name="body" placeholder="내용을 입력해주세요."
-								class="height-300"></textarea>
+								class="height-300" style="width:99%; resize: none;"></textarea>
 						</div>
 					</td>
 				</tr>
@@ -132,7 +188,7 @@
 				</tr>
 				<tr>
 					<th>작성</th>
-					<td><input type="submit" value="작성"></td>
+					<td><input type="submit" value="작성" style="width:50%;"><input type="reset" value="취소" style="width:50%;"></td></td>
 				</tr>
 			</tbody>
 		</table>
@@ -140,17 +196,18 @@
 
 </c:if>
 
-<h2 class="con">댓글 리스트</h2>
+<h2 class="con" style="margin-top:50px;">댓글 리스트</h2>
 
-<div class="reply-list-box table-box con">
-	<table>
+<div class="reply-list-box table-box con" style="margin-bottom:100px;">
+	<table border="1">
 		<colgroup>
-			<col width="80">
+			<col width="82">
 			<col width="180">
 			<col width="180">
-			<col>
+			<col width="200">
 			<col width="200">
 		</colgroup>
+
 		<thead>
 			<tr>
 				<th>번호</th>
@@ -324,11 +381,11 @@
 		html += '<td>';
 
 		if (reply.extra.actorCanDelete) {
-			html += '<button type="button" onclick="ReplyList__delete(this);">삭제</button>';
+			html += '<button type="button" onclick="ReplyList__delete(this);" style="width:50%;">삭제</button>';
 		}
 		
 		if (reply.extra.actorCanModify) {
-			html += '<button type="button" onclick="ReplyList__showModifyFormModal(this);">수정</button>';
+			html += '<button type="button" onclick="ReplyList__showModifyFormModal(this);" style="width:50%;">수정</button>';
 		}
 		
 		html += '</td>';
