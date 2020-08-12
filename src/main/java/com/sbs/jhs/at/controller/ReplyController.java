@@ -50,7 +50,7 @@ public class ReplyController {
 
 		int newReplyId = replyService.writeReply(param);
 		rsDataBody.put("replyId", newReplyId);
-
+		
 		return new ResultData("S-1", String.format("%d번 댓글이 생성되었습니다.", newReplyId), rsDataBody);
 	}
 

@@ -1,7 +1,10 @@
 package com.sbs.jhs.at.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sbs.jhs.at.dto.Article;
+import com.sbs.jhs.at.dto.ResultData;
 import com.sbs.jhs.at.service.ArticleService;
 
 @Controller
@@ -65,17 +69,96 @@ public class ArticleController {
 	}
 
 	@RequestMapping("/usr/article/write")
-	public String showWrite() {
+	public String showWrite(Model model) {
+		int articleMaxId = articleService.getArticleMaxCount() + 1;
+		
+		System.out.println("articleMaxId : " + articleMaxId);
+		
+		model.addAttribute("articleMaxId", articleMaxId);
+		
 		return "article/write";
 	}
 
 	@RequestMapping("/usr/article/doWrite")
-	public String doWrite(@RequestParam Map<String, Object> param) {
+	public ResultData doWrite(@RequestParam Map<String, Object> param, HttpServletRequest request) {
+		Map<String, Object> rsDataBody = new HashMap<>();
+
+		param.put("memberId", request.getAttribute("loginedMemberId"));
+
 		int newArticleId = articleService.write(param);
+		rsDataBody.put("replyId", newArticleId);
+		
 
 		String redirectUrl = (String) param.get("redirectUrl");
 		redirectUrl = redirectUrl.replace("#id", newArticleId + "");
+		//rsDataBody.put("redirectUrl", redirectUrl);
+		
+		return new ResultData("S-1", String.format("%d번 글이 생성되었습니다.", newArticleId), rsDataBody);
+	}
+	
+	@RequestMapping("/usr/article/modify")
+	public String showModify(Model model, int id, HttpServletRequest request) {
+		int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 
-		return "redirect:" + redirectUrl;
+		Map<String, Object> articleModifyAvailableRs = articleService.getArticleModifyAvailable(id, loginedMemberId);
+
+		if (((String) articleModifyAvailableRs.get("resultCode")).startsWith("F-")) {
+			model.addAttribute("alertMsg", articleModifyAvailableRs.get("msg"));
+			model.addAttribute("historyBack", true);
+
+			return "common/redirect";
+		}
+
+		Article article = articleService.getForPrintArticleById(id);
+
+		model.addAttribute("article", article);
+		return "article/modify";
+	}
+	
+	@RequestMapping("/usr/article/doModify")
+	public String doModify(Model model, @RequestParam Map<String, Object> param, HttpServletRequest request) {
+		int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+
+		int id = Integer.parseInt((String) param.get("id"));
+		Map<String, Object> articleModifyAvailableRs = articleService.getArticleModifyAvailable(id, loginedMemberId);
+
+		if (((String) articleModifyAvailableRs.get("resultCode")).startsWith("F-")) {
+			model.addAttribute("alertMsg", articleModifyAvailableRs.get("msg"));
+			model.addAttribute("historyBack", true);
+
+			return "common/redirect";
+		}
+
+		Map<String, Object> rs = articleService.modify(param);
+
+		String msg = (String) rs.get("msg");
+		String redirectUrl = "/article/detail?id=" + id;
+		model.addAttribute("alertMsg", msg);
+		model.addAttribute("locationReplace", redirectUrl);
+		return "common/redirect";
+	}
+	
+	@RequestMapping("/usr/article/doDelete")
+	public String doDelete(Model model, int id, HttpServletRequest request) {
+
+		int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+
+		Map<String, Object> articleDeleteAvailableRs = articleService.getArticleDeleteAvailable(id, loginedMemberId);
+
+		if (((String) articleDeleteAvailableRs.get("resultCode")).startsWith("F-")) {
+			model.addAttribute("alertMsg", articleDeleteAvailableRs.get("msg"));
+			model.addAttribute("historyBack", true);
+
+			return "common/redirect";
+		}
+
+		Map<String, Object> rs = articleService.deleteArticle(id);
+
+		String msg = (String) rs.get("msg");
+		String redirectUrl = "/usr/article/list";
+		model.addAttribute("alertMsg", msg);
+		model.addAttribute("locationReplace", redirectUrl);
+		
+		return "common/redirect";
 	}
 }

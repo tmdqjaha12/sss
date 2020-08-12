@@ -115,3 +115,28 @@ CREATE TABLE `file` (
     fileNo TINYINT(2) UNSIGNED NOT NULL,
     `body` LONGBLOB
 );
+
+
+USE AT
+
+UPDATE article
+SET delStatus = 1
+WHERE id = 1;
+
+ALTER TABLE article ADD COLUMN memberId INT(10) NOT NULL AFTER id
+
+SELECT *
+FROM article
+
+SELECT *
+		FROM article
+		WHERE displayStatus = 1
+		AND delStatus = 0
+		AND title LIKE CONCAT('%', '', '%')
+		ORDER BY id DESC
+		LIMIT 0, 10
+		
+		
+TRUNCATE TABLE article
+TRUNCATE TABLE reply
+TRUNCATE TABLE `file`

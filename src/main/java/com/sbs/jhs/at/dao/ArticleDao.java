@@ -20,4 +20,10 @@ public interface ArticleDao {
 	int getForPrintListArticlesCount(String searchKeyword);
 
 	List<Article> getForPrintArticles(int limitFrom, int itemsInAPage, String searchKeyword);
+
+	void modifyArticle(Map<String, Object> param);
+
+	void deleteArticle(int id);
+
+	int getArticleMaxCount();
 }

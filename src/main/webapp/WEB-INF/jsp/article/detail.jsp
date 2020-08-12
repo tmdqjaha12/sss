@@ -93,6 +93,7 @@
 			}
 
 			var startUploadFiles = function(onSuccess) {
+				// 1
 				if ( form.file__reply__0__common__attachment__1.value.length == 0 && form.file__reply__0__common__attachment__2.value.length == 0 ) {
 					onSuccess();
 					return;
@@ -113,9 +114,12 @@
 					type : 'POST',
 					success : onSuccess
 				});
+
+				// 2
 			}
 
 			var startWriteReply = function(fileIdsStr, onSuccess) {
+				// 4
 				$.ajax({
 					url : './../reply/doWriteReplyAjax',
 					data : {
@@ -128,14 +132,19 @@
 					type : 'POST',
 					success : onSuccess
 				});
+
+				// 5
 			};
 
 			startUploadFiles(function(data) {
+				// 3
 				var idsStr = '';
-				if ( data && data.body && data.body.fileIdsStr ) {
+				if ( data && data.body && data.body.fileIdsStr ) {//fileIdsStr
 					idsStr = data.body.fileIdsStr;
 				}
+				
 				startWriteReply(idsStr, function(data) {
+					// 7
 					if ( data.msg ) {
 						alert(data.msg);
 					}
@@ -143,15 +152,18 @@
 					form.body.value = '';
 					form.file__reply__0__common__attachment__1.value = '';
 					form.file__reply__0__common__attachment__2.value = '';
+					// 8
 				});
+
+				// 6
 			});
 		}
 	</script>
 
 	<form class="table-box con form1"
 		onsubmit="ArticleWriteReplyForm__submit(this); return false;">
-		<input type="hidden" name="relTypeCode" value="article" /> <input
-			type="hidden" name="relId" value="${article.id}" />
+		<input type="hidden" name="relTypeCode" value="article" /> 
+		<input type="hidden" name="relId" value="${article.id}" />
 
 		<table border="1">
 			<colgroup>

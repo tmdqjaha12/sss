@@ -14,6 +14,7 @@
 		AND AR.relTypeCode = #{relTypeCode}
 		AND AR.displayStatus = 1
 		AND AR.id >= #{from}
+		AND AR.delStatus = 0
 		ORDER BY AR.id ASC
 		]]>
 	</select>
@@ -48,8 +49,11 @@
 	</select>
 
 	<delete id="deleteReply">
-		DELETE FROM reply
-		WHERE id = #{id}
+		UPDATE reply
+		SET delDate = NOW(), 
+		delStatus = 1
+		WHERE id 
+		= #{id}
 	</delete>
 
 	<update id="modifyReply">
