@@ -95,7 +95,7 @@ public class FileController {
 
 		Map<String, Object> rsDataBody = new HashMap<>();
 		rsDataBody.put("fileIdsStr", Joiner.on(",").join(fileIds));
-		System.out.println("fileIdsStr : " + rsDataBody.get("fileIdsStr"));
+//		System.out.println("fileIdsStr : " + rsDataBody.get("fileIdsStr"));
 		rsDataBody.put("fileIds", fileIds);
 
 		return new ResultData("S-1", String.format("%d개의 파일을 저장했습니다.", fileIds.size()), rsDataBody);

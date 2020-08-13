@@ -39,7 +39,11 @@ public class FileService {
 	}
 
 	public void changeRelId(int id, int relId) {
+		System.out.println("바꾸기시작3");
+		System.out.println("id : " + id);
+		System.out.println("relId : " + relId);
 		fileDao.changeRelId(id, relId);
+		System.out.println("바꾸기시작4");
 	}
 
 	public Map<Integer, File> getFilesMapKeyRelId(String relTypeCode, List<Integer> relIds, String typeCode,

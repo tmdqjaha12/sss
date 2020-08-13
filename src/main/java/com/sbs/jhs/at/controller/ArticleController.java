@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.naming.spi.DirStateFactory.Result;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,31 +70,31 @@ public class ArticleController {
 	}
 
 	@RequestMapping("/usr/article/write")
-	public String showWrite(Model model) {
-		int articleMaxId = articleService.getArticleMaxCount() + 1;
-		
-		System.out.println("articleMaxId : " + articleMaxId);
-		
-		model.addAttribute("articleMaxId", articleMaxId);
-		
+	public String showWrite() {
 		return "article/write";
 	}
-
+	
+	// 글쓰기
 	@RequestMapping("/usr/article/doWrite")
-	public ResultData doWrite(@RequestParam Map<String, Object> param, HttpServletRequest request) {
+	public String doWrite(@RequestParam Map<String, Object> param, HttpServletRequest request) {
 		Map<String, Object> rsDataBody = new HashMap<>();
-
-		param.put("memberId", request.getAttribute("loginedMemberId"));
-
+		
+		int loginedMemberId = (int) request.getAttribute("loginedMemberId");
+		param.put("memberId", loginedMemberId);
+		
 		int newArticleId = articleService.write(param);
 		rsDataBody.put("replyId", newArticleId);
 		
-
+		new ResultData("S-1", String.format("%d번 글이 생성되었습니다.", newArticleId), rsDataBody);
+		
 		String redirectUrl = (String) param.get("redirectUrl");
 		redirectUrl = redirectUrl.replace("#id", newArticleId + "");
-		//rsDataBody.put("redirectUrl", redirectUrl);
 		
-		return new ResultData("S-1", String.format("%d번 글이 생성되었습니다.", newArticleId), rsDataBody);
+//		return redirectUrl;	
+//		rsDataBody.put(redirectUrl, "redirectUrl");
+//		System.out.println("redirectUrl : " + redirectUrl);
+//		return new ResultData("S-1", String.format("%d번 글이 생성되었습니다.", newArticleId), rsDataBody);
+		return "redirect:" + redirectUrl;
 	}
 	
 	@RequestMapping("/usr/article/modify")

@@ -17,6 +17,7 @@ import com.sbs.jhs.at.util.Util;
 public class ArticleService {
 	@Autowired
 	private ArticleDao articleDao;
+	@Autowired
 	private FileService fileService;
 
 	// 리스트
@@ -37,9 +38,11 @@ public class ArticleService {
 	public int write(Map<String, Object> param) {
 		articleDao.write(param);
 		int id = Util.getAsInt(param.get("id"));
-
+		System.out.println("paramId : " + id);
+		
 		String fileIdsStr = (String) param.get("fileIdsStr");
-
+		System.out.println("write fileIdsStr : " + fileIdsStr);
+		
 		if (fileIdsStr != null && fileIdsStr.length() > 0) {
 			List<Integer> fileIds = Arrays.asList(fileIdsStr.split(",")).stream().map(s -> Integer.parseInt(s.trim()))
 					.collect(Collectors.toList());
@@ -53,6 +56,7 @@ public class ArticleService {
 
 		return id;
 	}
+	
 
 	// 글 갯수
 	public int getForPrintListArticlesCount(String searchKeyword) {

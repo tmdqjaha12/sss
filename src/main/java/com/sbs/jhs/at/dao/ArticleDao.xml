@@ -37,7 +37,7 @@
 		article
 		WHERE id = #{id}
 	</select>
-
+	
 	<!-- 게시물 작성 -->
 	<insert id="write" useGeneratedKeys="true" keyProperty="id">
 		INSERT

@@ -51,37 +51,38 @@ public class ReplyController {
 		int newReplyId = replyService.writeReply(param);
 		rsDataBody.put("replyId", newReplyId);
 		
+		
 		return new ResultData("S-1", String.format("%d번 댓글이 생성되었습니다.", newReplyId), rsDataBody);
 	}
 
-	@RequestMapping("/usr/reply/doDeleteReplyAjax")
-	@ResponseBody
-	public ResultData doDeleteReplyAjax(int id, HttpServletRequest req) {
-		Member loginedMember = (Member) req.getAttribute("loginedMember");
-		Reply reply = replyService.getForPrintReplyById(id);
-
-		if (replyService.actorCanDelete(loginedMember, reply) == false) {
-			return new ResultData("F-1", String.format("%d번 댓글을 삭제할 권한이 없습니다.", id));
-		}
-
-		replyService.deleteReply(id);
-
-		return new ResultData("S-1", String.format("%d번 댓글을 삭제하였습니다.", id));
-	}
-
-	@RequestMapping("/usr/reply/doModifyReplyAjax")
-	@ResponseBody
-	public ResultData doModifyReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest req, int id) {
-		Member loginedMember = (Member) req.getAttribute("loginedMember");
-		Reply reply = replyService.getForPrintReplyById(id);
-
-		if (replyService.actorCanModify(loginedMember, reply) == false) {
-			return new ResultData("F-1", String.format("%d번 댓글을 수정할 권한이 없습니다.", id));
-		}
-
-		Map<String, Object> modfiyReplyParam = Util.getNewMapOf(param, "id", "body");
-		ResultData rd = replyService.modfiyReply(modfiyReplyParam);
-
-		return rd;
-	}
+//	@RequestMapping("/usr/reply/doDeleteReplyAjax")
+//	@ResponseBody
+//	public ResultData doDeleteReplyAjax(int id, HttpServletRequest req) {
+//		Member loginedMember = (Member) req.getAttribute("loginedMember");
+//		Reply reply = replyService.getForPrintReplyById(id);
+//
+//		if (replyService.actorCanDelete(loginedMember, reply) == false) {
+//			return new ResultData("F-1", String.format("%d번 댓글을 삭제할 권한이 없습니다.", id), rsDataBody);
+//		}
+//
+//		replyService.deleteReply(id);
+//
+//		return new ResultData("S-1", String.format("%d번 댓글을 삭제하였습니다.", id), rsDataBody);
+//	}
+//
+//	@RequestMapping("/usr/reply/doModifyReplyAjax")
+//	@ResponseBody
+//	public ResultData doModifyReplyAjax(@RequestParam Map<String, Object> param, HttpServletRequest req, int id) {
+//		Member loginedMember = (Member) req.getAttribute("loginedMember");
+//		Reply reply = replyService.getForPrintReplyById(id);
+//
+//		if (replyService.actorCanModify(loginedMember, reply) == false) {
+//			return new ResultData("F-1", String.format("%d번 댓글을 수정할 권한이 없습니다.", id), rsDataBody);
+//		}
+//
+//		Map<String, Object> modfiyReplyParam = Util.getNewMapOf(param, "id", "body");
+//		ResultData rd = replyService.modfiyReply(modfiyReplyParam);
+//
+//		return rd;
+//	}
 }
